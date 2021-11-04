@@ -3,28 +3,44 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		951C6A8C2655CC5300F7AB5C /* AppIconCreator in Frameworks */ = {isa = PBXBuildFile; productRef = 951C6A8B2655CC5300F7AB5C /* AppIconCreator */; };
+		955AF6FC26A8954800F326B2 /* SpeedtestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955AF6FB26A8954800F326B2 /* SpeedtestView.swift */; };
+		95762DF126443EFF0022C2E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95762DF026443EFF0022C2E0 /* ContentView.swift */; };
 		9591D23F2614DBC700CDBBF0 /* ClickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D23E2614DBC700CDBBF0 /* ClickerApp.swift */; };
-		9591D2412614DBC700CDBBF0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2402614DBC700CDBBF0 /* ContentView.swift */; };
+		9591D2412614DBC700CDBBF0 /* OldContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2402614DBC700CDBBF0 /* OldContentView.swift */; };
 		9591D2432614DBC800CDBBF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9591D2422614DBC800CDBBF0 /* Assets.xcassets */; };
 		9591D2462614DBC800CDBBF0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9591D2452614DBC800CDBBF0 /* Preview Assets.xcassets */; };
 		9591D2482614DBC800CDBBF0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2472614DBC800CDBBF0 /* Persistence.swift */; };
 		9591D24B2614DBC800CDBBF0 /* Clicker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */; };
+		9591D2562614DBFC00CDBBF0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2542614DBFC00CDBBF0 /* Settings.swift */; };
+		9591D2572614DBFC00CDBBF0 /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2552614DBFC00CDBBF0 /* Keycodes.swift */; };
+		9591D25C2614DC5C00CDBBF0 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */; };
+		959F81B426547C4100BDD976 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959F81B326547C4100BDD976 /* SettingsView.swift */; };
+		95AFD6D126542EF10070269A /* HotkeyRecorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AFD6D026542EF10070269A /* HotkeyRecorders.swift */; };
+		95C04FA0261953210048C026 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C04F9F261953210048C026 /* HelpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		955AF6FB26A8954800F326B2 /* SpeedtestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedtestView.swift; sourceTree = "<group>"; };
+		95762DF026443EFF0022C2E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9591D23B2614DBC700CDBBF0 /* Clicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9591D23E2614DBC700CDBBF0 /* ClickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickerApp.swift; sourceTree = "<group>"; };
-		9591D2402614DBC700CDBBF0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9591D2402614DBC700CDBBF0 /* OldContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldContentView.swift; sourceTree = "<group>"; };
 		9591D2422614DBC800CDBBF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9591D2452614DBC800CDBBF0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9591D2472614DBC800CDBBF0 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		9591D24A2614DBC800CDBBF0 /* Clicker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clicker.xcdatamodel; sourceTree = "<group>"; };
 		9591D24C2614DBC800CDBBF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9591D24D2614DBC800CDBBF0 /* Clicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clicker.entitlements; sourceTree = "<group>"; };
+		9591D2542614DBFC00CDBBF0 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		9591D2552614DBFC00CDBBF0 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
+		959F81B326547C4100BDD976 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		95AFD6D026542EF10070269A /* HotkeyRecorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRecorders.swift; sourceTree = "<group>"; };
+		95C04F9F261953210048C026 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				951C6A8C2655CC5300F7AB5C /* AppIconCreator in Frameworks */,
+				9591D25C2614DC5C00CDBBF0 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,9 +76,16 @@
 			isa = PBXGroup;
 			children = (
 				9591D23E2614DBC700CDBBF0 /* ClickerApp.swift */,
-				9591D2402614DBC700CDBBF0 /* ContentView.swift */,
+				959F81B326547C4100BDD976 /* SettingsView.swift */,
+				95762DF026443EFF0022C2E0 /* ContentView.swift */,
+				95C04F9F261953210048C026 /* HelpView.swift */,
+				955AF6FB26A8954800F326B2 /* SpeedtestView.swift */,
+				95AFD6D026542EF10070269A /* HotkeyRecorders.swift */,
+				9591D2542614DBFC00CDBBF0 /* Settings.swift */,
+				9591D2552614DBFC00CDBBF0 /* Keycodes.swift */,
 				9591D2422614DBC800CDBBF0 /* Assets.xcassets */,
 				9591D2472614DBC800CDBBF0 /* Persistence.swift */,
+				9591D2402614DBC700CDBBF0 /* OldContentView.swift */,
 				9591D24C2614DBC800CDBBF0 /* Info.plist */,
 				9591D24D2614DBC800CDBBF0 /* Clicker.entitlements */,
 				9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */,
@@ -93,6 +118,10 @@
 			dependencies = (
 			);
 			name = Clicker;
+			packageProductDependencies = (
+				9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */,
+				951C6A8B2655CC5300F7AB5C /* AppIconCreator */,
+			);
 			productName = Clicker;
 			productReference = 9591D23B2614DBC700CDBBF0 /* Clicker.app */;
 			productType = "com.apple.product-type.application";
@@ -118,8 +147,13 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 9591D2322614DBC700CDBBF0;
+			packageReferences = (
+				9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */,
+			);
 			productRefGroup = 9591D23C2614DBC700CDBBF0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,8 +182,15 @@
 			files = (
 				9591D2482614DBC800CDBBF0 /* Persistence.swift in Sources */,
 				9591D24B2614DBC800CDBBF0 /* Clicker.xcdatamodeld in Sources */,
-				9591D2412614DBC700CDBBF0 /* ContentView.swift in Sources */,
+				9591D2572614DBFC00CDBBF0 /* Keycodes.swift in Sources */,
+				95C04FA0261953210048C026 /* HelpView.swift in Sources */,
+				9591D2412614DBC700CDBBF0 /* OldContentView.swift in Sources */,
+				959F81B426547C4100BDD976 /* SettingsView.swift in Sources */,
 				9591D23F2614DBC700CDBBF0 /* ClickerApp.swift in Sources */,
+				9591D2562614DBFC00CDBBF0 /* Settings.swift in Sources */,
+				95AFD6D126542EF10070269A /* HotkeyRecorders.swift in Sources */,
+				955AF6FC26A8954800F326B2 /* SpeedtestView.swift in Sources */,
+				95762DF126443EFF0022C2E0 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +201,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -207,7 +249,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -221,6 +263,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -262,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -277,6 +320,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clicker/Clicker.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Clicker/Preview Content\"";
@@ -289,6 +333,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.AppleEverything.Clicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -301,6 +346,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clicker/Clicker.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Clicker/Preview Content\"";
@@ -313,6 +359,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.AppleEverything.Clicker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -341,6 +388,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/darrarski/swiftui-app-icon-creator.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		951C6A8B2655CC5300F7AB5C /* AppIconCreator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */;
+			productName = AppIconCreator;
+		};
+		9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */ = {
