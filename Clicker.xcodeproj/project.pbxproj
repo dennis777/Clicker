@@ -56,6 +56,7 @@
 		9591D2322614DBC700CDBBF0 = {
 			isa = PBXGroup;
 			children = (
+				957FB3822AD065BD003534A1 /* README.md */,
 				9591D23D2614DBC700CDBBF0 /* Clicker */,
 				9591D23C2614DBC700CDBBF0 /* Products */,
 			);
@@ -86,7 +87,6 @@
 				9591D24C2614DBC800CDBBF0 /* Info.plist */,
 				9591D24D2614DBC800CDBBF0 /* Clicker.entitlements */,
 				9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */,
-				957FB3822AD065BD003534A1 /* README.md */,
 				9591D2442614DBC800CDBBF0 /* Preview Content */,
 			);
 			path = Clicker;
