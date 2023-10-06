@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct ClickerApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @ObservedObject var appSettings = AppSettings()
+    @StateObject var appSettings = AppSettings()
     @State private var helpOpened = false
     @State private var timers = (first: DispatchSource.makeTimerSource(queue: .main),
                                  second: DispatchSource.makeTimerSource(queue: .main),
@@ -22,31 +22,30 @@ struct ClickerApp: App {
         WindowGroup {
             ContentView(timers: $timers)
                 .frame(width: 450, height: 165)
-                .frame(maxWidth: appSettings.compactView ? 130 : .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .environmentObject(appSettings)
         }
         .commands {
             CommandMenu("Menu") {
-                Button((appSettings.showProcesses ? "Hide" : "Show")+" all processes") {
+                Button((appSettings.showProcesses ? "Hide" : "Show")+" processes") {
                     appSettings.showProcesses.toggle()
                 }
                 .keyboardShortcut("1")
-                Button((appSettings.compactView ? "Hide" : "Show")+" compact view") {
-                    appSettings.compactView.toggle()
-                }
-                .keyboardShortcut("2")
-                Button((appSettings.smartToggles ? "Disable" : "Enable")+" smart toggles") {
-                    appSettings.smartToggles.toggle()
-                }
-                .keyboardShortcut("3")
+//                Button((appSettings.compactView ? "Hide" : "Show")+" compact view") {
+//                    appSettings.compactView.toggle()
+//                }
+//                .keyboardShortcut("2")
+//                Button((appSettings.smartToggle ? "Disable" : "Enable")+" smart toggles") {
+//                    appSettings.smartToggle.toggle()
+//                }
+//                .keyboardShortcut("3")
                 #if DEBUG
                 Divider()
-                Button("Resize Window") {
-                    NotificationCenter.default.post(name: NSNotification.Name("setWindowSize"), object: nil)
-                }
                 Button("Reset User defaults") {
                     UserDefaults.reset()
                 }
                 #endif
+                
             }
             CommandGroup(replacing: .help) {
                 Button(action: {
@@ -62,10 +61,30 @@ struct ClickerApp: App {
             CommandGroup(replacing: .newItem, addition: {})
             CommandGroup(replacing: .pasteboard, addition: {})
             CommandGroup(replacing: .undoRedo, addition: {})
+            CommandMenu("Edit") {
+                Section {
+                    Button("Select All") {
+                        NSApp.sendAction(#selector(NSText.selectAll(_:)), to: nil, from: nil)
+                    }
+                    .keyboardShortcut("a")
+                    Button("Cut") {
+                        NSApp.sendAction(#selector(NSText.cut(_:)), to: nil, from: nil)
+                    }
+                    .keyboardShortcut("x")
+                    Button("Copy") {
+                        NSApp.sendAction(#selector(NSText.copy(_:)), to: nil, from: nil)
+                    }
+                    .keyboardShortcut("c")
+                    Button("Paste") {
+                        NSApp.sendAction(#selector(NSText.paste(_:)), to: nil, from: nil)
+                    }
+                    .keyboardShortcut("v")
+                }
+            }
         }
         
         Settings {
-            SettingsView()
+            SettingsView().environmentObject(appSettings)
         }
     }
 }
@@ -118,7 +137,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func setWindowSize() {
-        window?.setContentSize(NSSize(width: 450, height: 180))
+        window?.setContentSize(NSSize(width: 450, height: 175))
     }
 }
 
@@ -138,6 +157,19 @@ extension View {
     
     func openNewWindow(with title: String = "new Window") {
         self.newWindowInternal(with: title).contentView = NSHostingView(rootView: self)
+    }
+    
+    /// Applies the given transform if the given condition evaluates to `true`.
+    /// - Parameters:
+    ///   - condition: The condition to evaluate.
+    ///   - transform: The transform to apply to the source `View`.
+    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
+    @ViewBuilder func conditionalModifier<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
 }
 

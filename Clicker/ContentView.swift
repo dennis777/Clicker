@@ -9,32 +9,11 @@
 
 import SwiftUI
 import CoreData
-import Carbon
-
-//struct ContentView: View {
-//    @State private var pt: CGPoint = .zero
-//    var body: some View {
-//        let myGesture = DragGesture(minimumDistance: 0, coordinateSpace: .global).onEnded({
-//            self.pt = $0.startLocation
-//        })
-//
-//        // Spacers needed to make the VStack occupy the whole screen
-//        return VStack {
-//            Spacer()
-//            Text("Tapped at: \(pt.x), \(pt.y)")
-//            Spacer()
-//            HStack { Spacer() }
-//        }
-//        .border(Color.green)
-//        .contentShape(Rectangle()) // Make the entire VStack tappabable, otherwise, only the areay with text generates a gesture
-//        .gesture(myGesture) // Add the gesture to the Vstack
-//    }
-//}
 
 struct ContentView: View {
-    @ObservedObject var appSettings = AppSettings()
+    @EnvironmentObject var appSettings: AppSettings
     @State private var selection = "Stopped"
-    @State private var isClicking = (supplies: false, mines: false, afk: false, sideA: false, sideB: false, mouse: false)
+    @State private var isClicking = (first: false, second: false, afk: false, sideA: false, sideB: false, mouse: false)
     @State private var showsAppNotFoundAlert = false
     @State private var showsNoPermissionsAlert = false
     @State private var cycles = 0
@@ -53,32 +32,26 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if !appSettings.compactView {
-                ProcessPicker
-                SuppliesSelecionView
-                DelayTextFieldsView
-                JoinButtons
-                StartStopBtns
-            } else {
-                StartStopBtn
-            }
+            ProcessPicker
+            KeysToClickView
+            DelayTextFieldsView
+            JoinAFKButtons
+            StartStopBtns
         }
         .contentShape(Rectangle())
         .padding()
         .onAppear {
-            Hotkey.onKeyDown(for: .supplies, action: {startClicking(keys: .first)})
-            Hotkey.onKeyDown(for: .mines, action: {startClicking(keys: .second)})
-            Hotkey.onKeyDown(for: .afk, action: {startClicking(keys: .afk)})
+            Hotkey.onKeyDown(for: .first, action: {startClicking(keys: .first)})
+            Hotkey.onKeyDown(for: .second, action: {startClicking(keys: .second)})
+//            Hotkey.onKeyDown(for: .afk, action: {startClicking(keys: .afk)})
             Hotkey.onKeyDown(for: .mouse, action: {startClicking(keys: .mouse)})
             findRunningApplication()
             _ = debugTimer.connect()
-            //setupTimers()
             requestPermissions()
             Hotkey.startMonitoring()
             resignFirstResponder()
         }
         .onReceive(appSettings.$showProcesses) {_ in
-            runningApplications = getRunningApplications()
             findRunningApplication()
         }
         .onReceive(debugTimer) {_ in
@@ -103,62 +76,101 @@ struct ContentView: View {
                 appSettings.appSelectionName = runningApplications[appSelection].localizedName ?? "Error"
             })
             Button(action: {
-                runningApplications = getRunningApplications()
                 findRunningApplication()
             }, label: {
                 Text("Refresh")
             })
         }
-        .padding(.top, 5)
         .alert(isPresented: $showsAppNotFoundAlert, content: {
             Alert(title: Text("Application Not Running"), message: Text("The selected application cannot be found or is not running."), dismissButton: .default(Text("OK")))
         })
         .frame(idealWidth: 400, maxWidth: .infinity)
     }
     
-    var SuppliesSelecionView: some View {
-        HStack {
-            Toggle(isOn: $appSettings.toggleStates[0], label: {
-                Text("Repair")
-            })
-            Divider()
-            Toggle(isOn: $appSettings.toggleStates[1], label: {
-                Text("Armour")
-            })
-            Divider()
-            Toggle(isOn: $appSettings.toggleStates[2], label: {
-                Text("Damage")
-            })
-            Divider()
-            Toggle(isOn: $appSettings.toggleStates[3], label: {
-                Text("Speed")
-            })
-            Divider()
-            Toggle(isOn: $appSettings.toggleStates[4], label: {
-                Text("Mines")
-            })
+    var KeysToClickView: some View {
+        HStack(alignment: .center) {
+            HStack {
+                Text("Keys to press:")
+                    .frame(width: 86, alignment: .leading)
+                TextField("Enter text...", text: $appSettings.keysToClick, onEditingChanged: {_ in
+                    isClicking.first ? restartClicking(keys: .first) : ()
+                }, onCommit: resignFirstResponder)
+                .frame(width: 110)
+            }
+            HStack {
+                Text("Second keys:")
+                    .frame(width: 86, alignment: .leading)
+                TextField("Enter text...", text: $appSettings.keysToClick2, onEditingChanged: {_ in
+                    isClicking.second ? restartClicking(keys: .second) : ()
+                }, onCommit: resignFirstResponder)
+                .frame(width: 110)
+            }
         }
-        .frame(idealHeight: 16, maxHeight: .infinity)
-        .padding([.top, .bottom], 3)
+        .padding(.top, 3)
     }
+    
+//    var SuppliesSelecionView: some View {
+//        HStack {
+//            Toggle(isOn: $appSettings.toggleStates[0], label: {
+//                Text("Repair")
+//            })
+//            Divider()
+//            Toggle(isOn: $appSettings.toggleStates[1], label: {
+//                Text("Armour")
+//            })
+//            Divider()
+//            Toggle(isOn: $appSettings.toggleStates[2], label: {
+//                Text("Damage")
+//            })
+//            Divider()
+//            Toggle(isOn: $appSettings.toggleStates[3], label: {
+//                Text("Speed")
+//            })
+//            Divider()
+//            Toggle(isOn: $appSettings.toggleStates[4], label: {
+//                Text("Mines")
+//            })
+//        }
+//        .frame(idealHeight: 16, maxHeight: .infinity)
+//        .padding([.top, .bottom], 3)
+//    }
     
     var DelayTextFieldsView: some View {
         HStack(alignment: .center) {
             HStack {
-                Text("Supplies delay:")
+                Text("First delay:")
+                    .frame(width: 86, alignment: .leading)
                 TextField("ms", text: $appSettings.delay, onEditingChanged: {_ in
-                    isClicking.supplies ? restartClicking(keys: .first) : ()
+                    isClicking.first ? restartClicking(keys: .first) : ()
                 }, onCommit: resignFirstResponder)
-                .frame(width: 100)
+                .frame(width: 110)
             }
             HStack {
-                Text("Mines delay:")
+                Text("Second delay:")
+                    .frame(width: 86, alignment: .leading)
                 TextField("ms", text: $appSettings.delay2, onEditingChanged: {_ in
-                    isClicking.mines ? restartClicking(keys: .second) : ()
+                    isClicking.second ? restartClicking(keys: .second) : ()
                 }, onCommit: resignFirstResponder)
-                .frame(width: 100)
+                .frame(width: 110)
             }
         }
+    }
+    
+    var JoinAFKButtons: some View {
+        VStack {
+            Divider()
+//            Button(!isClicking.sideA ? "Join side A" : "Stop side A") {
+//                startClicking(keys: .sideA)
+//            }
+//            Button(!isClicking.afk ? "Start AFK" : "Stop AFK") {
+//                startClicking(keys: .afk)
+//            }
+//            Button(!isClicking.sideB ? "Join side B" : "Stop side B") {
+//                startClicking(keys: .sideB)
+//            }
+        }
+        .frame(height: 10)
+        .padding(.bottom, 3)
     }
     
     var StartStopBtns: some View {
@@ -169,13 +181,13 @@ struct ContentView: View {
             Button(action: {
                 startClicking(keys: .first)
             }, label: {
-                Text(!isClicking.supplies ? "Start Supplies" : "Stop Supplies")
+                Text("\(!isClicking.first ? "Start" : "Stop") First")
                     .frame(width: 90)
             })
             Button(action: {
                 startClicking(keys: .second)
             }, label: {
-                Text(!isClicking.mines ? "Start Mines" : "Stop Mines")
+                Text("\(!isClicking.second ? "Start" : "Stop") Second")
                     .frame(width: 90)
             })
             Text(selection)
@@ -188,45 +200,6 @@ struct ContentView: View {
         })
     }
     
-    var JoinButtons: some View {
-        HStack {
-            Button(!isClicking.sideA ? "Join side A" : "Stop side A") {
-                startClicking(keys: .sideA)
-            }
-            Button(!isClicking.afk ? "Start AFK" : "Stop AFK") {
-                startClicking(keys: .afk)
-            }
-            Button(!isClicking.sideB ? "Join side B" : "Stop side B") {
-                startClicking(keys: .sideB)
-            }
-//            Button("Open Debug") {
-//                SpeedtestView(debugTimer: $debugTimer, clicksPerCycle: $clicksPerCycle, secondsElapsed: $secondsElapsed, totalClicks: $cycles).openNewWindow(with: "Clicker Debug")
-//            }
-//            .keyboardShortcut("7")
-        }
-        .padding(.bottom, 1)
-    }
-    
-    var StartStopBtn: some View {
-        VStack {
-            Button(!isClicking.supplies ? "Start Supplies" : "Stop Supplies") {
-                startClicking(keys: .first)
-            }
-            Button(!isClicking.mines ? "Start Mines" : "Stop Mines") {
-                startClicking(keys: .second)
-            }
-            Button(!isClicking.afk ? "Start AFK" : "Stop AFK") {
-                startClicking(keys: .afk)
-            }
-            Button(!isClicking.sideA ? "Join side A" : "Stop side A") {
-                startClicking(keys: .sideA)
-            }
-            Button(!isClicking.sideB ? "Join side B" : "Stop side B") {
-                startClicking(keys: .sideB)
-            }
-        }
-    }
-    
     // MARK: - Timer Functions
     
     func initializeTimers() {
@@ -234,45 +207,37 @@ struct ContentView: View {
         let delay2 = Int(appSettings.delay2) ?? 50
         timers.first.schedule(deadline: .now(), repeating: .milliseconds(delay))
         timers.first.setEventHandler(handler: {
-            if isClicking.supplies {
+            if isClicking.first {
                 cycles += 1
                 // Create string from toggles
-                var keysToClick = String()
-                for i in 0..<appSettings.toggleStates.count-1 {
-                    if appSettings.toggleStates[i] {
-                        keysToClick += "\(i+1)"
-                    }
-                }
+                let events = createEvents(from: appSettings.keysToClick.toKeyCodes())
                 // Create events from string and inject into pid
-                let events = createEvents(from: keysToClick.toKeyCodes())
                 inject(events: events, into: runningApplications[appSelection].processIdentifier)
             }
         })
         timers.second.schedule(deadline: .now(), repeating: .milliseconds(delay2))
         timers.second.setEventHandler(handler: {
-            if isClicking.mines {
-                if !isClicking.supplies {
+            if isClicking.second {
+                if !isClicking.first {
                     cycles += 1
                 }
-                let events = createEvents(from: "5".toKeyCodes())
-                inject(events: events, into: runningApplications[appSelection].processIdentifier)
+                let events = createEvents(from: appSettings.keysToClick2.toKeyCodes())
+                inject(events: events, into: pid)
             }
         })
         if let events = createJoinEvents() {
             timers.third.schedule(deadline: .now(), repeating: .milliseconds(50))
             timers.third.setEventHandler(handler: {
-                inject(events: events, into: runningApplications[appSelection].processIdentifier)
+                inject(events: events, into: pid)
             })
         }
         timers.fourth.schedule(deadline: .now(), repeating: .seconds(15))
         timers.fourth.setEventHandler(handler: {
             if isClicking.afk {
-                let movement = "adadadadadadadadadad"
-                let events = createEvents(from: movement.toKeyCodes())
-                inject(events: events, into: runningApplications[appSelection].processIdentifier)
+                runAfkSequence()
             }
         })
-        timers.fifth.schedule(deadline: .now(), repeating: /*.seconds(15)*/.nanoseconds(100000))
+        timers.fifth.schedule(deadline: .now(), repeating: .milliseconds(Int(appSettings.mouseDelay) ?? 10))
         timers.fifth.setEventHandler(handler: {
             if isClicking.mouse {
                 //let position = mouseLocation
@@ -285,34 +250,60 @@ struct ContentView: View {
         })
     }
     
+    private func runAfkSequence() {
+        let aDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(keycodes["a"]!), keyDown: true)!
+        let aUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(keycodes["a"]!), keyDown: false)!
+        aDown.flags = []
+        aUp.flags = []
+        
+        let dDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(keycodes["d"]!), keyDown: true)!
+        let dUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(keycodes["d"]!), keyDown: false)!
+        dDown.flags = []
+        dUp.flags = []
+        
+        inject(events: [aDown], into: pid)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            inject(events: [aUp], into: pid)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            inject(events: [dDown], into: pid)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+            inject(events: [dUp], into: pid)
+        }
+    }
+    
     func startClicking(keys: Keyset) {
         if !hasPermissions() {
             stopClicker()
             showsNoPermissionsAlert.toggle()
             return
         }
-        if !selectedAppIsRunning() && !isClicking.supplies && !isClicking.mines && !isClicking.sideA {
+        if !selectedAppIsRunning() && !isClicking.first && !isClicking.second && !isClicking.sideA {
             stopClicker()
             showsAppNotFoundAlert.toggle()
             return
         }
         
         if keys == .first {
-            isClicking.supplies.toggle()
-            isClicking.supplies ? startTimer(.first) : timers.first.suspend()
-            if !isClicking.supplies && isClicking.mines && appSettings.smartToggles {
-                isClicking.mines.toggle()
-                isClicking.mines ? startTimer(.second) : timers.second.suspend()
+            isClicking.first.toggle()
+            isClicking.first ? startTimer(.first) : timers.first.suspend()
+            if !isClicking.first && isClicking.second && appSettings.smartToggle {
+                isClicking.second.toggle()
+                isClicking.second ? startTimer(.second) : timers.second.suspend()
             }
-            updateRunningStatus(isClicking.supplies)
+            updateRunningStatus(isClicking.first)
             cycles = 0
         } else if keys == .second {
-            isClicking.mines.toggle()
-            isClicking.mines ? startTimer(.second) : timers.second.suspend()
-            if !isClicking.supplies && isClicking.mines && appSettings.smartToggles {
+            isClicking.second.toggle()
+            isClicking.second ? startTimer(.second) : timers.second.suspend()
+            if !isClicking.first && isClicking.second && appSettings.smartToggle {
                 startClicking(keys: .first)
             }
-            updateRunningStatus(isClicking.supplies)
+            updateRunningStatus(isClicking.first)
         } else if keys == .afk {
             isClicking.afk.toggle()
             if !isClicking.afk {
@@ -323,23 +314,31 @@ struct ContentView: View {
         } else if keys == .sideA {
             isClicking.sideA.toggle()
             updateRunningStatus(isClicking.sideA)
-            if isClicking.sideA && !isClicking.sideB {
-                startTimer(.sideA)
-            } else if !isClicking.sideA && !isClicking.sideB {
+            
+            if !isClicking.sideA {
                 timers.third.suspend()
+                if isClicking.sideB {
+                    startTimer(.sideA)
+                }
             } else {
-                timers.third.suspend()
-                startTimer(.sideB)
+                if isClicking.sideB {
+                    timers.third.suspend()
+                }
+                startTimer(.sideA)
             }
         } else if keys == .sideB {
             isClicking.sideB.toggle()
             updateRunningStatus(isClicking.sideB)
-            if isClicking.sideB && !isClicking.sideA {
-                startTimer(.sideA)
-            } else if !isClicking.sideB && !isClicking.sideA {
+            
+            if !isClicking.sideB {
                 timers.third.suspend()
+                if isClicking.sideA {
+                    startTimer(.sideA)
+                }
             } else {
-                timers.third.suspend()
+                if isClicking.sideA {
+                    timers.third.suspend()
+                }
                 startTimer(.sideA)
             }
         } else if keys == .mouse {
@@ -348,11 +347,11 @@ struct ContentView: View {
                 timers.fifth.suspend()
             } else {
                 setMouseLocation = NSEvent.mouseLocation
-                
-                if setMouseLocation.y > 450 {
-                    setMouseLocation.y = 450 - (setMouseLocation.y-450)
-                } else if setMouseLocation.y < 450 {
-                    setMouseLocation.y = 450 + (450-setMouseLocation.y)
+                let halfValue = (NSScreen.screens.first?.frame.height ?? 1)/2
+                if setMouseLocation.y > halfValue {
+                    setMouseLocation.y = halfValue - (setMouseLocation.y-halfValue)
+                } else if setMouseLocation.y < halfValue {
+                    setMouseLocation.y = halfValue + (halfValue-setMouseLocation.y)
                 }
                 startTimer(.mouse)
             }
@@ -360,7 +359,7 @@ struct ContentView: View {
         
         // MARK: - Debug
         
-//        if isClicking.supplies {
+//        if isClicking.first {
 //            secondsElapsed = 0
 //            debugTimer = Timer.publish(every: 1, on: .main, in: .common)
 //            _ = debugTimer.connect()
@@ -388,7 +387,7 @@ struct ContentView: View {
         if selection == "Stopped" && buttonState {
             selection = "Running"
         } else if selection == "Running" {
-            if !isClicking.supplies && !isClicking.mines && !isClicking.sideA && !isClicking.sideB {
+            if !isClicking.first && !isClicking.second && !isClicking.sideA && !isClicking.sideB && !isClicking.afk {
                 selection = "Stopped"
             }
         }
@@ -407,27 +406,27 @@ struct ContentView: View {
         } else if timer == .mouse {
             initializeTimers()
             timers.fifth.resume()
-        } else {
+        } else { // A or B
             initializeTimers()
             timers.third.resume()
         }
     }
     
     func stopClicker() {
-        if isClicking.supplies {
+        if isClicking.first {
             timers.first.suspend()
-            isClicking.supplies = false
+            isClicking.first = false
         }
-        if isClicking.mines {
+        if isClicking.second {
             timers.second.suspend()
-            isClicking.mines = false
+            isClicking.second = false
         }
         if isClicking.afk {
-            timers.third.suspend()
+            timers.fourth.suspend()
             isClicking.afk = false
         }
         if isClicking.sideA || isClicking.sideB {
-            timers.fourth.suspend()
+            //timers.third.suspend()
             isClicking.sideA = false
             isClicking.sideB = false
         }
@@ -441,12 +440,12 @@ struct ContentView: View {
         if isClicking.sideA || isClicking.sideB {
             var events = [CGEvent]()
             if isClicking.sideA {
-                events += createEvents(from: [0x00])
+                events += createEvents(from: [(0x00, nil)])
             }
             if isClicking.sideB {
-                events += createEvents(from: [0x0B])
+                events += createEvents(from: [(0x0B, nil)])
             }
-            events += createEvents(from: [0x24])
+            events += createEvents(from: [(0x24, nil)])
             return events
         }
         return nil
@@ -458,13 +457,13 @@ struct ContentView: View {
         }
     }
     
-    func createEvents(from keycodes: [UInt16], flags: CGEventFlags = []) -> [CGEvent] {
+    func createEvents(from keycodes: [(keyCode: UInt16, modifiers: CGEventFlags?)], flags: CGEventFlags = []) -> [CGEvent] {
         var events = [CGEvent]()
         for code in keycodes {
-            let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(code), keyDown: true)!
-            let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(code), keyDown: false)!
-            keyDown.flags = flags
-            keyUp.flags = flags
+            let keyDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(code.keyCode), keyDown: true)!
+            let keyUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(code.keyCode), keyDown: false)!
+            keyDown.flags = code.modifiers != nil ? code.modifiers! : flags
+            keyUp.flags = code.modifiers != nil ? code.modifiers! : flags
             events.append(keyDown)
             events.append(keyUp)
         }
@@ -495,14 +494,6 @@ struct ContentView: View {
     
     // MARK: - General Functions
     
-    func setupTimers() {
-        timers.first.activate(); timers.first.suspend()
-//        timers.second.activate(); timers.second.suspend()
-//        timers.third.activate(); timers.third.suspend()
-//        timers.fourth.activate(); timers.fourth.suspend()
-//        timers.fifth.activate(); timers.fifth.suspend()
-    }
-    
     func resignFirstResponder() {
         DispatchQueue.main.async {
             NSApp.keyWindow?.makeFirstResponder(nil)
@@ -511,7 +502,7 @@ struct ContentView: View {
     
     func requestPermissions() {
         if !hasPermissions() {
-            inject(events: createEvents(from: [0xFF]), into: NSRunningApplication.current.processIdentifier)
+            inject(events: createEvents(from: [(0xFF, nil)]), into: NSRunningApplication.current.processIdentifier)
             cycles = 0
         }
     }
@@ -523,6 +514,7 @@ struct ContentView: View {
     }
     
     func findRunningApplication() {
+        runningApplications = getRunningApplications()
         if appSettings.appSelectionName == "" || appSettings.appSelectionName == "Error" {
             appSettings.appSelectionName = runningApplications[appSelection].localizedName ?? "Error"
             return
@@ -556,15 +548,15 @@ struct ContentView: View {
         print("\nStatus: \(selection)")
         print("Clicking application: \(runningApplications[appSelection].localizedName ?? "Unkown")", terminator: "")
         print(" | pid: \(runningApplications[appSelection].processIdentifier)")
-        print("\tKeys: \(appSettings.toggleStates)")
+        print("\tKeys to click: [1]\(appSettings.keysToClick) | [2]\(appSettings.keysToClick2)")
         print("\t\tDelay1: \(appSettings.delay)\n\t\tDelay2: \(appSettings.delay2)")
         print("isClicking: \(isClicking)\n------------------------------------")
     }
 }
 
 extension Hotkey.Name {
-    static let supplies = Self("supplies")
-    static let mines = Self("mines")
+    static let first = Self("first")
+    static let second = Self("second")
     static let afk = Self("afk")
     static let mouse = Self("mouse")
 }
@@ -579,103 +571,25 @@ enum Keyset {
 }
 
 extension String {
-    func toKeyCodes() -> [UInt16] {
-        var arr = [UInt16]()
+    func toKeyCodes() -> [(keyCode: UInt16, modifiers: CGEventFlags?)] {
+        var arr = [(keyCode: UInt16, modifiers: CGEventFlags?)]()
         for char in self {
-            arr.append(keycodes["\(char)"]!)
+            let charModifiers: CGEventFlags? = char.isUppercase ? .maskShift : nil
+            if let cgKeyCode = keycodes["\(char.lowercased())"] {
+                arr.append((keyCode: cgKeyCode, modifiers: charModifiers))
+            } else if let cgKeyCode = parallelKeycodes["\(char)"] {
+                arr.append((keyCode: cgKeyCode, modifiers: .maskShift))
+            } else {
+                print("No keycode for char: \(char)")
+            }
         }
         return arr
     }
 }
 
-
-//extension String {
-//    /// This converts string to UInt as a fourCharCode
-//    public var fourCharCodeValue: Int {
-//        var result: Int = 0
-//        if let data = self.data(using: String.Encoding.macOSRoman) {
-//            data.withUnsafeBytes({ (rawBytes) in
-//                let bytes = rawBytes.bindMemory(to: UInt8.self)
-//                for i in 0 ..< data.count {
-//                    result = result << 8 + Int(bytes[i])
-//                }
-//            })
-//        }
-//        return result
-//    }
-//}
-//
-//class HotkeySolution {
-//    static func getCarbonFlagsFromCocoaFlags(cocoaFlags: NSEvent.ModifierFlags) -> UInt32 {
-//        let flags = cocoaFlags.rawValue
-//        var newFlags: Int = 0
-//
-//        if ((flags & NSEvent.ModifierFlags.control.rawValue) > 0) {
-//            newFlags |= controlKey
-//        }
-//
-//        if ((flags & NSEvent.ModifierFlags.command.rawValue) > 0) {
-//            newFlags |= cmdKey
-//        }
-//
-//        if ((flags & NSEvent.ModifierFlags.shift.rawValue) > 0) {
-//            newFlags |= shiftKey;
-//        }
-//
-//        if ((flags & NSEvent.ModifierFlags.option.rawValue) > 0) {
-//            newFlags |= optionKey
-//        }
-//
-//        if ((flags & NSEvent.ModifierFlags.capsLock.rawValue) > 0) {
-//            newFlags |= alphaLock
-//        }
-//
-//        return UInt32(newFlags);
-//    }
-//
-//    static func register() {
-//        var hotKeyRef: EventHotKeyRef?
-//        let modifierFlags: UInt32 = getCarbonFlagsFromCocoaFlags(cocoaFlags: NSEvent.ModifierFlags.option)
-//
-//        let keyCode = kVK_ANSI_9
-//        var gMyHotKeyID = EventHotKeyID()
-//
-//        gMyHotKeyID.id = UInt32(keyCode)
-//
-//        // Not sure what "swat" vs "htk1" do.
-//        gMyHotKeyID.signature = OSType("swat".fourCharCodeValue)
-//        // gMyHotKeyID.signature = OSType("htk1".fourCharCodeValue)
-//
-//        var eventType = EventTypeSpec()
-//        eventType.eventClass = OSType(kEventClassKeyboard)
-//        eventType.eventKind = OSType(kEventHotKeyReleased)
-//
-//        // Install handler.
-//        InstallEventHandler(GetApplicationEventTarget(), {
-//            (nextHanlder, theEvent, userData) -> OSStatus in
-//            // var hkCom = EventHotKeyID()
-//
-//            // GetEventParameter(theEvent,
-//            //                   EventParamName(kEventParamDirectObject),
-//            //                   EventParamType(typeEventHotKeyID),
-//            //                   nil,
-//            //                   MemoryLayout<EventHotKeyID>.size,
-//            //                   nil,
-//            //                   &hkCom)
-//
-//            print("Clicked 9")
-//
-//            return noErr
-//            /// Check that hkCom in indeed your hotkey ID and handle it.
-//        }, 1, &eventType, nil, nil)
-//
-//        // Register hotkey.
-//        let status = RegisterEventHotKey(UInt32(keyCode),
-//                                         modifierFlags,
-//                                         gMyHotKeyID,
-//                                         GetApplicationEventTarget(),
-//                                         0,
-//                                         &hotKeyRef)
-//        assert(status == noErr)
-//    }
-//}
+struct MyButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(configuration.isPressed ? Color.blue : Color.gray)
+    }
+}

@@ -16,7 +16,7 @@ enum Hotkey {
     
     public static func startMonitoring() {
         NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
-            //print("Keydown global \(event.keyCode)")
+            print("Keydown global \(event.keyCode)")
             if event.isARepeat { return }
             
             // Will call matching closure if event is keycommmand
@@ -40,7 +40,7 @@ enum Hotkey {
     
     public static func performActionIfEventIsKeyCommand(event: NSEvent, sender: String = "local") -> NSEvent? {
         for (eventName, handler) in eventHandlers {
-            guard let keyCommand = UserDefaults.standard.object(forKey: eventName) as? String else {
+            guard let keyCommand = UserDefaults.standard.object(forKey: "\(eventName)-Hotkey") as? String else {
                 print("Failed to fetch key command for \(eventName)")
                 return event
             }
@@ -113,9 +113,9 @@ enum Hotkey {
         @State private var keyCommand: String? {
             didSet {
                 if keyCommand == nil {
-                    UserDefaults.standard.removeObject(forKey: named)
+                    UserDefaults.standard.removeObject(forKey: "\(named)-Hotkey")
                 } else {
-                    UserDefaults.standard.set(keyCommand, forKey: named)
+                    UserDefaults.standard.set(keyCommand, forKey: "\(named)-Hotkey")
                 }
             }
         }
@@ -126,16 +126,22 @@ enum Hotkey {
                     .foregroundColor(Color(.controlBackgroundColor))
                     .frame(width: 120, height: 18)
                     .onTapGesture {
-                        withAnimation {
-                            recording = true
+                        withAnimation { recording = true }
+                    }
+                    .onHover { isHovering in
+                        if !isHovering {
+                            withAnimation { recording = isHovering }
                         }
                     }
                 HStack(alignment: .center) {
                     Text(keyCommand == nil ? "\(recording ? "Press" : "Record") Shortcut" : keyCommand!)
                         .foregroundColor(keyCommand == nil ? Color(.secondaryLabelColor) : Color(.labelColor))
                         .onTapGesture {
-                            withAnimation {
-                                recording = true
+                            withAnimation { recording = true }
+                        }
+                        .onHover { isHovering in
+                            if !isHovering {
+                                withAnimation { recording = isHovering }
                             }
                         }
                     if keyCommand != nil {
@@ -150,16 +156,9 @@ enum Hotkey {
                     .strokeBorder(lineWidth: 1.5)
                     .frame(width: 120, height: 20)
                     .foregroundColor(recording ? Color(.systemTeal) : Color(.tertiaryLabelColor))
-                    .onHover { isHovering in
-                        if !isHovering {
-                            withAnimation {
-                                recording = isHovering
-                            }
-                        }
-                    }
             }
             .onAppear {
-                keyCommand = UserDefaults.standard.object(forKey: named) as? String ?? defaultKeyCommand ?? nil
+                keyCommand = UserDefaults.standard.object(forKey: "\(named)-Hotkey") as? String ?? defaultKeyCommand ?? nil
                 setupLocalMonitoring()
             }
         }
@@ -183,7 +182,6 @@ enum Hotkey {
                     return event
                 }
                 keyCommand = event.modifierFlags.description+character
-                
                 return nil
             })
         }

@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		951C6A8C2655CC5300F7AB5C /* AppIconCreator in Frameworks */ = {isa = PBXBuildFile; productRef = 951C6A8B2655CC5300F7AB5C /* AppIconCreator */; };
 		955AF6FC26A8954800F326B2 /* SpeedtestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955AF6FB26A8954800F326B2 /* SpeedtestView.swift */; };
 		95762DF126443EFF0022C2E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95762DF026443EFF0022C2E0 /* ContentView.swift */; };
 		9591D23F2614DBC700CDBBF0 /* ClickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D23E2614DBC700CDBBF0 /* ClickerApp.swift */; };
@@ -16,9 +15,8 @@
 		9591D2462614DBC800CDBBF0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9591D2452614DBC800CDBBF0 /* Preview Assets.xcassets */; };
 		9591D2482614DBC800CDBBF0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2472614DBC800CDBBF0 /* Persistence.swift */; };
 		9591D24B2614DBC800CDBBF0 /* Clicker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */; };
-		9591D2562614DBFC00CDBBF0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2542614DBFC00CDBBF0 /* Settings.swift */; };
+		9591D2562614DBFC00CDBBF0 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2542614DBFC00CDBBF0 /* AppSettings.swift */; };
 		9591D2572614DBFC00CDBBF0 /* Keycodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9591D2552614DBFC00CDBBF0 /* Keycodes.swift */; };
-		9591D25C2614DC5C00CDBBF0 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */; };
 		959F81B426547C4100BDD976 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959F81B326547C4100BDD976 /* SettingsView.swift */; };
 		95AFD6D126542EF10070269A /* HotkeyRecorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AFD6D026542EF10070269A /* HotkeyRecorders.swift */; };
 		95C04FA0261953210048C026 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C04F9F261953210048C026 /* HelpView.swift */; };
@@ -36,7 +34,7 @@
 		9591D24A2614DBC800CDBBF0 /* Clicker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Clicker.xcdatamodel; sourceTree = "<group>"; };
 		9591D24C2614DBC800CDBBF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9591D24D2614DBC800CDBBF0 /* Clicker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clicker.entitlements; sourceTree = "<group>"; };
-		9591D2542614DBFC00CDBBF0 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		9591D2542614DBFC00CDBBF0 /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9591D2552614DBFC00CDBBF0 /* Keycodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keycodes.swift; sourceTree = "<group>"; };
 		959F81B326547C4100BDD976 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		95AFD6D026542EF10070269A /* HotkeyRecorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRecorders.swift; sourceTree = "<group>"; };
@@ -48,8 +46,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951C6A8C2655CC5300F7AB5C /* AppIconCreator in Frameworks */,
-				9591D25C2614DC5C00CDBBF0 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +77,7 @@
 				95C04F9F261953210048C026 /* HelpView.swift */,
 				955AF6FB26A8954800F326B2 /* SpeedtestView.swift */,
 				95AFD6D026542EF10070269A /* HotkeyRecorders.swift */,
-				9591D2542614DBFC00CDBBF0 /* Settings.swift */,
+				9591D2542614DBFC00CDBBF0 /* AppSettings.swift */,
 				9591D2552614DBFC00CDBBF0 /* Keycodes.swift */,
 				9591D2422614DBC800CDBBF0 /* Assets.xcassets */,
 				9591D2472614DBC800CDBBF0 /* Persistence.swift */,
@@ -119,8 +115,6 @@
 			);
 			name = Clicker;
 			packageProductDependencies = (
-				9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */,
-				951C6A8B2655CC5300F7AB5C /* AppIconCreator */,
 			);
 			productName = Clicker;
 			productReference = 9591D23B2614DBC700CDBBF0 /* Clicker.app */;
@@ -132,8 +126,9 @@
 		9591D2332614DBC700CDBBF0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					9591D23A2614DBC700CDBBF0 = {
 						CreatedOnToolsVersion = 12.4;
@@ -147,12 +142,9 @@
 			knownRegions = (
 				en,
 				Base,
-				"zh-Hans",
 			);
 			mainGroup = 9591D2322614DBC700CDBBF0;
 			packageReferences = (
-				9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
-				951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */,
 			);
 			productRefGroup = 9591D23C2614DBC700CDBBF0 /* Products */;
 			projectDirPath = "";
@@ -187,7 +179,7 @@
 				9591D2412614DBC700CDBBF0 /* OldContentView.swift in Sources */,
 				959F81B426547C4100BDD976 /* SettingsView.swift in Sources */,
 				9591D23F2614DBC700CDBBF0 /* ClickerApp.swift in Sources */,
-				9591D2562614DBFC00CDBBF0 /* Settings.swift in Sources */,
+				9591D2562614DBFC00CDBBF0 /* AppSettings.swift in Sources */,
 				95AFD6D126542EF10070269A /* HotkeyRecorders.swift in Sources */,
 				955AF6FC26A8954800F326B2 /* SpeedtestView.swift in Sources */,
 				95762DF126443EFF0022C2E0 /* ContentView.swift in Sources */,
@@ -232,9 +224,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -249,7 +243,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -294,9 +288,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -305,7 +301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -321,8 +317,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clicker/Clicker.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Clicker/Preview Content\"";
 				DEVELOPMENT_TEAM = NRLH5938R4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -347,8 +345,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Clicker/Clicker.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Clicker/Preview Content\"";
 				DEVELOPMENT_TEAM = NRLH5938R4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -388,38 +388,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/darrarski/swiftui-app-icon-creator.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.0;
-			};
-		};
-		9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		951C6A8B2655CC5300F7AB5C /* AppIconCreator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 951C6A8A2655CC5300F7AB5C /* XCRemoteSwiftPackageReference "swiftui-app-icon-creator" */;
-			productName = AppIconCreator;
-		};
-		9591D25B2614DC5C00CDBBF0 /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9591D25A2614DC5C00CDBBF0 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */ = {
