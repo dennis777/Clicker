@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		955AF6FB26A8954800F326B2 /* SpeedtestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedtestView.swift; sourceTree = "<group>"; };
 		95762DF026443EFF0022C2E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		957FB3822AD065BD003534A1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9591D23B2614DBC700CDBBF0 /* Clicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9591D23E2614DBC700CDBBF0 /* ClickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickerApp.swift; sourceTree = "<group>"; };
 		9591D2402614DBC700CDBBF0 /* OldContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +86,7 @@
 				9591D24C2614DBC800CDBBF0 /* Info.plist */,
 				9591D24D2614DBC800CDBBF0 /* Clicker.entitlements */,
 				9591D2492614DBC800CDBBF0 /* Clicker.xcdatamodeld */,
+				957FB3822AD065BD003534A1 /* README.md */,
 				9591D2442614DBC800CDBBF0 /* Preview Content */,
 			);
 			path = Clicker;

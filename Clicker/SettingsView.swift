@@ -63,6 +63,15 @@ struct SettingsView: View {
                     .font(.title)
             }
         }
+        .onAppear {
+            resignFirstResponder()
+        }
+    }
+    
+    func resignFirstResponder() {
+        DispatchQueue.main.async {
+            NSApp.keyWindow?.makeFirstResponder(nil)
+        }
     }
 }
 

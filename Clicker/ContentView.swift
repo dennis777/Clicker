@@ -493,26 +493,26 @@ struct ContentView: View {
 //    }
     
     // MARK: - General Functions
-    
+
     func resignFirstResponder() {
         DispatchQueue.main.async {
             NSApp.keyWindow?.makeFirstResponder(nil)
         }
     }
-    
+
     func requestPermissions() {
         if !hasPermissions() {
             inject(events: createEvents(from: [(0xFF, nil)]), into: NSRunningApplication.current.processIdentifier)
             cycles = 0
         }
     }
-    
+
     func hasPermissions() -> Bool {
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : true]
         let accessEnabled = AXIsProcessTrustedWithOptions(options)
         return accessEnabled
     }
-    
+
     func findRunningApplication() {
         runningApplications = getRunningApplications()
         if appSettings.appSelectionName == "" || appSettings.appSelectionName == "Error" {

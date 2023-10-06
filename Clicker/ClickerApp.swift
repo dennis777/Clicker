@@ -42,7 +42,7 @@ struct ClickerApp: App {
                 #if DEBUG
                 Divider()
                 Button("Reset User defaults") {
-                    UserDefaults.reset()
+                    showConfirmResetUserDefaultsPrompt()
                 }
                 #endif
                 
@@ -87,6 +87,25 @@ struct ClickerApp: App {
             SettingsView().environmentObject(appSettings)
         }
     }
+    
+    func showConfirmResetUserDefaultsPrompt() {
+        let alert = NSAlert()
+        alert.messageText = "Are you sure?"
+        alert.informativeText = "Clearing the UserDefaults will\nreset all your saved information such\nas textfields, ms presets, and key command settings"
+        alert.addButton(withTitle: "Confirm")
+        alert.buttons[0].hasDestructiveAction = true
+        alert.addButton(withTitle: "Cancel")
+        let result = alert.runModal()
+        switch result {
+        case .alertFirstButtonReturn:
+            UserDefaults.reset()
+            break
+        case .alertSecondButtonReturn:
+            break
+        default:
+            break
+        }
+    }
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
@@ -101,14 +120,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             didSetWindowSize.toggle()
             
             if UserDefaults.standard.object(forKey: "displayedWelcomeMessages") as? Bool == nil {
+                let appSettings = AppSettings()
+
                 let alert1 = NSAlert()
                 alert1.messageText = "Welcome to Clicker"
-                alert1.informativeText = AppSettings().welcomeMessage
+                alert1.informativeText = appSettings.welcomeMessage
                 alert1.runModal()
                 
                 let alert2 = NSAlert()
                 alert2.messageText = "New this update"
-                alert2.informativeText = AppSettings().updateMessage
+                alert2.informativeText = appSettings.updateMessage
                 alert2.runModal()
                 
                 UserDefaults.standard.setValue(true, forKey: "displayedWelcomeMessages")
