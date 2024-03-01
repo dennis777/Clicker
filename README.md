@@ -1,5 +1,7 @@
 # Clicker
 A simple but speedy macOS clicker for both mouse and keyboard
+<img width="562" alt="image" src="https://github.com/dennis777/Clicker/assets/25965937/77344094-27d3-4a2f-8983-d3d0a912fb06">
+
 
 ## How to install
 1. Download the zip archive from [here](https://github.com/dennis777/Clicker/releases/tag/v2.1.1)
